@@ -1,0 +1,21 @@
+{
+    "name": "大连印记：从过去到未来的数字漫游",
+    "short_name": "大连印记",
+    "description": "以交互式时间轴、数据可视化大屏与未来规划互动地图，呈现大连百年城市变迁与宏伟蓝图。",
+    "lang": "zh-CN",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#04101f",
+    "theme_color": "#04101f",
+    "categories": ["education", "travel", "reference"],
+    "icons": [
+        {
+            "src": "favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+# Netlify / Cloudflare Pages 部署配置
+# 本站是纯静态站点，无需构建，直接把仓库根目录作为发布目录
+
+[build]
+    publish = "."
+    command = ""
+
+# 单页 / 404 处理
+[[redirects]]
+    from = "/*"
+    to = "/404.html"
+    status = 404
+
+[[headers]]
+    for = "/*"
+    [headers.values]
+        X-Content-Type-Options = "nosniff"
+        Referrer-Policy = "strict-origin-when-cross-origin"
+
+# 第三方库与静态资源可长期缓存
+[[headers]]
+    for = "/vendor/*"
+    [headers.values]
+        Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+    for = "/css/*"
+    [headers.values]
+        Cache-Control = "public, max-age=604800"
+
+[[headers]]
+    for = "/js/*"
+    [headers.values]
+        Cache-Control = "public, max-age=604800"

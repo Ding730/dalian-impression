@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="大连印记：从过去到未来的数字漫游 —— 以交互式时间轴、数据可视化大屏与未来规划互动地图，呈现大连百年城市变迁与宏伟蓝图。">
+    <meta name="keywords" content="大连,大连历史,大连未来规划,金普新区,金州湾国际机场,数据可视化,交互式时间轴,数字漫游,城市档案">
+    <meta name="author" content="大连印记项目组">
+    <meta name="theme-color" content="#04101f">
+    <meta name="format-detection" content="telephone=no">
+    <title>大连印记：从过去到未来的数字漫游</title>
+
+    <!-- 站点地址（线上真实网址；如后续重命名站点，请同步替换此处的 3 处地址） -->
+    <link rel="canonical" href="https://joyful-queijadas-62ea77.netlify.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="大连印记：从过去到未来的数字漫游">
+    <meta property="og:title" content="大连印记：从过去到未来的数字漫游">
+    <meta property="og:description" content="沿交互式时间轴从 1899 年走到今天，看数据可视化大屏与未来规划互动地图中的大连。">
+    <meta property="og:url" content="https://joyful-queijadas-62ea77.netlify.app/">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:image" content="https://joyful-queijadas-62ea77.netlify.app/favicon.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="大连印记：从过去到未来的数字漫游">
+    <meta name="twitter:description" content="交互式时间轴 + 数据可视化大屏 + 未来规划互动地图，讲述一座滨海城市的百年与未来。">
+
+    <!-- 站点图标与清单（支持添加到手机桌面、全屏运行） -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="manifest" href="site.webmanifest">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- 依赖库：优先加载本地 vendor（断网也能正常展示），若缺失则自动回退到 CDN -->
+    <script src="vendor/echarts.min.js"></script>
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/ScrollTrigger.min.js"></script>
+    <script>
+        if (typeof echarts === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"><\/script>');
+        }
+        if (typeof gsap === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>');
+        }
+        if (typeof ScrollTrigger === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><\/script>');
+        }
+    </script>
+</head>
+<body>
+
+    <!-- 加载开场 -->
+    <div id="loader" role="status" aria-live="polite">
+        <div class="loader-ring"></div>
+        <p class="loader-title">大连印记</p>
+        <div class="loader-bar"><i></i></div>
+        <p class="loader-sub">Dalian Impression · Loading</p>
+    </div>
+
+    <!-- 顶部导航 -->
+    <nav class="nav" id="nav">
+        <a class="nav-logo" href="#hero">
+            <span class="logo-mark">大</span>
+            <span>
+                <strong>大连印记</strong>
+                <em>DALIAN IMPRESSION</em>
+            </span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <a href="#hero" class="is-active">首页</a>
+            <a href="#history">历史长廊</a>
+            <a href="#data">今日大连</a>
+            <a href="#future">未来规划</a>
+            <a href="#quiz">城市问答</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="展开导航菜单" aria-expanded="false"><span></span></button>
+        <div class="nav-progress" id="navProgress"></div>
+    </nav>
+
+    <!-- ===== 01 首屏 Hero ===== -->
+    <header class="hero" id="hero">
+        <div class="hero-mouse" id="heroMouse">
+            <div class="hero-bg" id="heroBg">
+                <!-- 三幕地标"混剪"轮播：全部为手绘 SVG 场景，离线亦可正常展示 -->
+                <div class="scene scene--0 is-active" data-scene="0">
+                    <div class="scene-sky"></div>
+                    <svg class="scene-art" viewBox="0 0 1440 460" aria-hidden="true">
+                        <g fill="#0b2745">
+                            <rect x="40" y="196" width="52" height="180" />
+                            <rect x="104" y="164" width="38" height="212" />
+                            <rect x="154" y="216" width="60" height="160" />
+                            <rect x="1200" y="180" width="54" height="196" />
+                            <rect x="1266" y="216" width="42" height="160" />
+                            <rect x="1320" y="152" width="58" height="224" />
+                        </g>
+                        <path d="M120 330 C330 268 520 268 720 316 C920 364 1120 350 1330 300" fill="none" stroke="#12365e" stroke-width="10" stroke-linecap="round" />
+                        <g fill="#0d2c4c">
+                            <rect x="300" y="216" width="18" height="130" />
+                            <rect x="706" y="200" width="20" height="146" />
+                            <rect x="1108" y="228" width="18" height="118" />
+                        </g>
+                        <g stroke="#1c527f" stroke-width="2" fill="none" opacity=".85">
+                            <path d="M300 220 L430 292 M300 220 L176 296" />
+                            <path d="M706 204 L840 286 M706 204 L580 292" />
+                            <path d="M1108 232 L1240 292 M1108 232 L986 296" />
+                        </g>
+                        <path d="M0 400 C220 372 470 372 720 396 C980 420 1220 414 1440 392 L1440 460 L0 460 Z" fill="#08203a" />
+                        <path d="M40 402 C260 378 480 378 720 400" fill="none" stroke="#1b4b78" stroke-width="2" opacity=".8" />
+                        <g fill="#0e2e50">
+                            <path d="M690 402 L672 340 L708 340 Z" />
+                            <rect x="676" y="334" width="28" height="9" rx="3" />
+                            <rect x="686" y="294" width="8" height="42" />
+                        </g>
+                        <g fill="none" stroke="#2a6ea8" stroke-width="1.4" opacity=".5">
+                            <path d="M120 428 C300 414 520 414 720 428" />
+                            <path d="M420 444 C620 432 880 432 1080 444" />
+                        </g>
+                    </svg>
+                    <div class="scene-caption">
+                        <strong>星海广场</strong>
+                        <span>XINGHAI SQUARE</span>
+                    </div>
+                </div>
+                <!-- 场景二：东港商务区 -->
+                <div class="scene scene--1" data-scene="1">
+                    <div class="scene-sky"></div>
+                    <svg class="scene-art" viewBox="0 0 1440 460" aria-hidden="true">
+                        <defs>
+                            <pattern id="winPattern" width="12" height="16" patternUnits="userSpaceOnUse">
+                                <rect width="12" height="16" fill="#131f42" />
+                                <rect x="2.5" y="3" width="4" height="5" fill="#8fd8ff" opacity=".7" />
+                                <rect x="2.5" y="11" width="4" height="3" fill="#f6c46a" opacity=".45" />
+                            </pattern>
+                        </defs>
+                        <g fill="#131f42">
+                            <rect x="238" y="176" width="66" height="216" />
+                            <rect x="404" y="204" width="72" height="188" />
+                            <rect x="572" y="228" width="64" height="164" />
+                            <rect x="736" y="196" width="70" height="196" />
+                            <rect x="902" y="232" width="78" height="160" />
+                            <rect x="1080" y="214" width="68" height="178" />
+                        </g>
+                        <g fill="url(#winPattern)">
+                            <rect x="330" y="120" width="58" height="272" />
+                            <rect x="500" y="146" width="52" height="246" />
+                            <rect x="656" y="86" width="60" height="306" />
+                            <rect x="828" y="158" width="54" height="234" />
+                            <rect x="1002" y="136" width="58" height="256" />
+                            <rect x="1170" y="166" width="52" height="226" />
+                        </g>
+                        <g fill="none" stroke="#4fb2f0" stroke-width="1.5" opacity=".55">
+                            <path d="M656 86 L686 60 L716 86" />
+                            <path d="M330 120 L359 96 L388 120" />
+                            <path d="M1002 136 L1031 112 L1060 136" />
+                        </g>
+                        <path d="M0 396 C240 380 520 380 780 392 C1040 404 1240 400 1440 388 L1440 460 L0 460 Z" fill="#111c3a" />
+                        <g fill="#1b2f57">
+                            <path d="M180 396 L360 396 L336 440 L204 440 Z" />
+                            <path d="M300 340 L308 396 L292 396 Z" />
+                        </g>
+                        <g fill="none" stroke="#f6c46a" stroke-width="1.6" opacity=".45">
+                            <path d="M120 424 C320 410 560 410 760 424" />
+                            <path d="M620 438 C820 426 1060 426 1260 438" />
+                        </g>
+                    </svg>
+                    <div class="scene-caption">
+                        <strong>东港商务区</strong>
+                        <span>DONGGANG CBD</span>
+                    </div>
+                </div>
+                <!-- 场景三：中山广场 -->
+                <div class="scene scene--2" data-scene="2">
+                    <div class="scene-sky"></div>
+                    <svg class="scene-art" viewBox="0 0 1440 460" aria-hidden="true">
+                        <g fill="#2a1e33" opacity=".95">
+                            <rect x="60" y="250" width="90" height="120" />
+                            <rect x="180" y="228" width="70" height="142" />
+                            <rect x="280" y="264" width="86" height="106" />
+                            <rect x="1080" y="236" width="82" height="134" />
+                            <rect x="1190" y="258" width="96" height="112" />
+                            <rect x="1310" y="230" width="72" height="140" />
+                        </g>
+                        <g stroke="#3c2b47" stroke-width="16" fill="none" stroke-linecap="round">
+                            <path d="M720 300 L240 448" />
+                            <path d="M720 300 L1200 448" />
+                            <path d="M720 300 L80 300" />
+                            <path d="M720 300 L1360 300" />
+                            <path d="M720 300 L400 128" />
+                            <path d="M720 300 L1040 128" />
+                        </g>
+                        <g fill="#1b2a4a">
+                            <circle cx="720" cy="300" r="94" stroke="#3a5a86" stroke-width="4" />
+                            <circle cx="720" cy="300" r="52" stroke="#4a7fb5" stroke-width="3" />
+                        </g>
+                        <g fill="#14243f" stroke="#33507d" stroke-width="1.5">
+                            <rect x="600" y="196" width="80" height="52" rx="6" />
+                            <rect x="760" y="196" width="80" height="52" rx="6" />
+                            <rect x="600" y="352" width="80" height="52" rx="6" />
+                            <rect x="760" y="352" width="80" height="52" rx="6" />
+                        </g>
+                        <g fill="#1c3f6b" stroke="#4a7fb5" stroke-width="1.5">
+                            <circle cx="640" cy="196" r="22" />
+                            <circle cx="800" cy="196" r="22" />
+                            <circle cx="640" cy="352" r="22" />
+                            <circle cx="800" cy="352" r="22" />
+                        </g>
+                        <circle cx="720" cy="300" r="7" fill="#f6c46a" opacity=".55" />
+                        <path d="M0 452 C240 434 520 434 760 446 C1020 460 1240 452 1440 442 L1440 460 L0 460 Z" fill="#120c1c" />
+                    </svg>
+                    <div class="scene-caption">
+                        <strong>中山广场</strong>
+                        <span>ZHONGSHAN SQUARE</span>
+                    </div>
+                </div>
+
+                <!-- 氛围叠加层 -->
+                <div class="hero-grid"></div>
+                <div class="hero-fog"></div>
+                <canvas id="particles" aria-hidden="true"></canvas>
+                <div class="hero-waves">
+                    <svg viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
+                        <path d="M0 96 C160 60 320 132 480 108 C660 80 820 24 1000 60 C1160 92 1300 124 1440 92 L1440 160 L0 160 Z" fill="rgba(9,32,60,.72)" />
+                        <path d="M0 118 C180 92 340 148 520 128 C700 108 880 62 1060 92 C1220 118 1340 138 1440 118 L1440 160 L0 160 Z" fill="rgba(5,20,40,.9)" />
+                    </svg>
+                </div>
+                <!--
+                    三幕地标场景（星海广场 / 东港商务区 / 中山广场），全部为手绘 SVG，离线可正常展示。
+                    如需替换为实拍素材，可任选其一：
+                    1）把对应 .scene-sky 的背景改为 background-image: url('images/xxx.jpg')；
+                    2）在 .scene 内放置照片：<img class="scene-art" src="images/xxx.jpg" alt="星海广场">
+                    3）在 .scene 内放置视频（静音自动播放）：
+                       <video class="scene-art" src="videos/xinghai.mp4" autoplay muted loop playsinline></video>
+                -->
+
+
+
+            </div>
+        </div>
+
+        <!-- 首屏文案 -->
+        <div class="hero-inner">
+            <p class="hero-eyebrow" id="heroEyebrow">1899 — 2026 · 北方明珠 · 东北亚国际航运中心</p>
+            <h1 class="hero-title" id="heroTitle">大连印记</h1>
+            <h2 class="hero-sub" id="heroSub">从过去到未来的数字漫游</h2>
+            <p class="hero-desc" id="heroDesc">
+                从青泥洼的第一条街道，到金州湾上崛起的人工岛机场；
+                用时间轴、数据与地图，串起一座滨海城市的百年记忆与未来蓝图。
+            </p>
+            <div class="hero-actions" id="heroActions">
+                <a class="btn btn-primary" href="#history">走进历史长廊 ↓</a>
+                <a class="btn" href="#data">查看数据大屏</a>
+                <a class="btn" href="#future">展望未来规划</a>
+            </div>
+            <div class="hero-stats" id="heroStats">
+                <div><b>120+</b><span>YEARS / 建市至今</span></div>
+                <div><b>9</b><span>ERAS / 时间轴节点</span></div>
+                <div><b>8</b><span>DISTRICTS / 规划区域</span></div>
+                <div><b>3</b><span>CHAPTERS / 内容篇章</span></div>
+            </div>
+        </div>
+
+        <!-- 场景切换与滚动提示 -->
+        <div class="scene-dots" id="sceneDots" role="tablist" aria-label="首屏地标场景切换">
+            <button class="is-active" data-scene-to="0" aria-label="星海广场"></button>
+            <button data-scene-to="1" aria-label="东港商务区"></button>
+            <button data-scene-to="2" aria-label="中山广场"></button>
+        </div>
+        <div class="scroll-hint">
+            <span class="mouse"></span>
+            <span>SCROLL</span>
+        </div>
+        <div class="hero-aside" aria-hidden="true">
+            <span>DALIAN · 大连</span>
+        </div>
+    </header>
+
+    <!-- ===== 02 历史长廊 ===== -->
+    <section class="section section-wide" id="history">
+        <div class="section-head reveal">
+            <span class="section-tag">01 / HISTORY GALLERY</span>
+            <h2 class="section-title">历史长廊</h2>
+            <p class="section-desc">
+                沿时间轴从 1899 年走到今天，点击节点即可查看该时期的档案；下方老地图会同步点亮对应的历史地标，形成「时间 — 空间」双重记忆线索。
+            </p>
+        </div>
+
+        <div class="history-layout">
+            <!-- 交互式时间轴（全宽） -->
+            <div class="timeline-track reveal" id="timelineTrack" role="tablist" aria-label="历史时期时间轴"></div>
+
+            <div class="history-body">
+                <!-- 老地图示意 + 地标联动 -->
+                <div class="history-map-col reveal">
+                <div class="oldmap" id="oldMap">
+                    <div class="oldmap-caption">
+                        <strong>大连市街略图</strong>
+                        <span>DALIAN · 约 1900s（示意复刻）</span>
+                    </div>
+                    <svg viewBox="0 0 600 460" role="img" aria-label="大连老地图示意图，可点击地标查看对应历史时期">
+                        <defs>
+                            <pattern id="mapShallow" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                                <line x1="0" y1="0" x2="0" y2="12" stroke="rgba(120,150,160,.5)" stroke-width="1" />
+                            </pattern>
+                        </defs>
+                        <rect width="600" height="460" fill="#e8dcbe" />
+                        <!-- 海域 -->
+                        <path d="M0 0 H600 V90 L520 120 L360 190 L240 150 L190 120 L140 95 L60 60 L0 40 Z" fill="#c9d9e2" />
+                        <path d="M0 40 L60 60 L140 95 L190 120 L240 150 L360 190 L520 120 L600 90" fill="none" stroke="#7c6a45" stroke-width="2" />
+                        <path d="M0 62 L64 80 L146 116 L196 141 L246 172 L358 214 L514 152 L600 122" fill="none" stroke="url(#mapShallow)" stroke-width="2" />
+                        <!-- 海域注记 -->
+                        <text x="404" y="112" fill="#5f7f8d" font-size="13" font-family="Songti SC, SimSun, serif" letter-spacing="3">大连湾</text>
+                        <text x="512" y="52" fill="#5f7f8d" font-size="13" font-family="Songti SC, SimSun, serif" letter-spacing="3">黄 海</text>
+                        <text x="104" y="28" fill="#5f7f8d" font-size="12" font-family="Songti SC, SimSun, serif" letter-spacing="2">渤海海峡方向</text>
+                        <!-- 城区范围 -->
+                        <path d="M120 470 L150 330 L210 250 L300 215 L382 236 L440 300 L430 380 L350 470 Z" fill="rgba(160,130,80,.16)" stroke="#8a6f45" stroke-width="1.4" stroke-dasharray="6 5" />
+                        <!-- 铁路与道路 -->
+                        <g fill="none" stroke="#a98d5c" stroke-width="1.6" stroke-dasharray="7 5">
+                            <path d="M354 212 C300 190 220 150 140 95" />
+                            <path d="M70 250 C160 260 240 262 294 230" />
+                        </g>
+                        <g fill="none" stroke="#b99a63" stroke-width="1.2" stroke-dasharray="4 5" opacity=".9">
+                            <path d="M294 230 L240 300 L198 290" />
+                            <path d="M294 230 L350 300" />
+                            <path d="M294 230 L252 170" />
+                            <path d="M294 230 L340 220 L354 212" />
+                            <path d="M294 230 L264 267 L216 239" />
+                        </g>
+                        <text x="146" y="98" fill="#7c6a45" font-size="10" font-family="Songti SC, SimSun, serif">东清铁路（南满支线）</text>
+                        <text x="66" y="266" fill="#7c6a45" font-size="10" font-family="Songti SC, SimSun, serif">沿海道路</text>
+                        <!-- 老铁山 -->
+                        <path d="M62 386 L74 364 L86 386 Z" fill="#8a6f45" opacity=".8" />
+                        <text x="50" y="404" fill="#6b5533" font-size="11" font-family="Songti SC, SimSun, serif">老铁山</text>
+                        <!-- 指北针与比例尺 -->
+                        <g transform="translate(522,388)">
+                            <circle r="24" fill="none" stroke="#8a6f45" stroke-width="1.4" />
+                            <path d="M0 -19 L7 6 L0 2 L-7 6 Z" fill="#b4462f" />
+                            <text x="0" y="40" fill="#6b5533" font-size="12" text-anchor="middle" font-family="Songti SC, SimSun, serif">N</text>
+                        </g>
+                        <g transform="translate(40,436)">
+                            <path d="M0 0 H96" stroke="#6b5533" stroke-width="2" />
+                            <path d="M0 -5 V5 M24 -4 V4 M48 -5 V5 M72 -4 V4 M96 -5 V5" stroke="#6b5533" stroke-width="1.4" />
+                            <text x="-2" y="-9" fill="#6b5533" font-size="9" font-family="Songti SC, SimSun, serif">0</text>
+                            <text x="84" y="-9" fill="#6b5533" font-size="9" font-family="Songti SC, SimSun, serif">10km</text>
+                        </g>
+                        <!-- 可交互地标（由 main.js 生成并联动） -->
+                        <g id="mapPoints"></g>
+                    </svg>
+                </div>
+
+                <!-- 事件信息条：固定位置展示当前地标事件，不遮挡地图上的其他地标 -->
+                <div class="map-event" id="mapEvent">
+                    <span class="map-event-tag" id="mapEventTag">当前地标</span>
+                    <b id="mapEventName">青泥洼</b>
+                    <p id="mapEventText">1899 年，沙俄在大连湾南岸的青泥洼一带建市，这里是这座城市可考的起点。</p>
+                </div>
+                <p class="map-note">* 老地图为手绘 SVG 示意复刻，地标位置经过艺术化处理，非精确测绘。</p>
+            </div>
+
+                <!-- 时代档案卡片：高度随左侧地图固定，内容过长时卡片内部滚动 -->
+                <div class="history-era-col reveal" data-delay="2">
+                <article class="era-card" id="eraCard">
+                    <div class="era-media" id="eraMedia">
+                        <span class="era-stamp" id="eraStamp">DALIAN ARCHIVE · 1899</span>
+                        <div class="era-year" id="eraYear">1899<small>建市之初</small></div>
+                        <svg class="era-art" id="eraArt" viewBox="0 0 320 140" aria-hidden="true"></svg>
+                    </div>
+                    <div class="era-body">
+                        <h3 id="eraTitle">1899 · 达里尼建市</h3>
+                        <p id="eraDesc"></p>
+                        <ul class="era-facts" id="eraFacts"></ul>
+                        <div class="era-tags" id="eraTags"></div>
+                    </div>
+                </article>
+                <div class="timeline-ctrl">
+                    <button type="button" id="eraPrev">← 上一时期</button>
+                    <span class="era-index" id="eraIndex">01 / 09</span>
+                    <button type="button" id="eraNext">下一时期 →</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 03 今日大连 · 数据看板 ===== -->
+    <section class="section section-wide section-alt" id="data">
+        <div class="section-head reveal">
+            <span class="section-tag">02 / DATA DASHBOARD</span>
+            <h2 class="section-title">今日大连 · 数据看板</h2>
+            <p class="section-desc">
+                以城市经济、产业结构、港口航运、文旅热度与发展能力五个维度，描绘当下大连的运行脉搏；鼠标悬停图表可查看具体数值。
+            </p>
+        </div>
+
+        <!-- 关键指标 -->
+        <div class="kpi-strip">
+            <div class="kpi reveal">
+                <b><span class="kpi-num" data-count="9517">0</span><i>亿元</i></b>
+                <span>地区生产总值（2024）</span>
+                <em>▲ 同比约 5.2%</em>
+            </div>
+            <div class="kpi reveal" data-delay="1">
+                <b><span class="kpi-num" data-count="750">0</span><i>万人</i></b>
+                <span>常住人口规模</span>
+                <em>特大城市 / 东北人口重要聚集地</em>
+            </div>
+            <div class="kpi reveal" data-delay="2">
+                <b><span class="kpi-num" data-count="4.6" data-decimals="1">0</span><i>亿吨</i></b>
+                <span>港口货物吞吐量</span>
+                <em>东北亚国际航运中心核心港</em>
+            </div>
+            <div class="kpi reveal" data-delay="3">
+                <b><span class="kpi-num" data-count="520">0</span><i>万TEU</i></b>
+                <span>集装箱吞吐量</span>
+                <em>服务东北腹地的出海通道</em>
+            </div>
+            <div class="kpi reveal" data-delay="4">
+                <b><span class="kpi-num" data-count="1.05" data-decimals="2">0</span><i>亿人次</i></b>
+                <span>年接待游客量</span>
+                <em>滨海旅游与夏季避暑热度持续提升</em>
+            </div>
+            <div class="kpi reveal" data-delay="4">
+                <b><span class="kpi-num" data-count="41.5" data-decimals="1">0</span><i>%</i></b>
+                <span>森林覆盖率</span>
+                <em>山海相拥的生态宜居城市</em>
+            </div>
+        </div>
+        <!-- 图表矩阵 -->
+        <div class="dash-grid">
+            <div class="dash-card dash-card--wide reveal">
+                <h3>经济总量与增长速度</h3>
+                <div class="chart chart--lg" id="chartGdp"></div>
+            </div>
+            <div class="dash-card reveal" data-delay="1">
+                <h3>三次产业结构（2024）</h3>
+                <div class="chart" id="chartIndustry"></div>
+            </div>
+            <div class="dash-card reveal" data-delay="2">
+                <h3>港口货物吞吐量趋势</h3>
+                <div class="chart" id="chartPort"></div>
+            </div>
+            <div class="dash-card reveal" data-delay="3">
+                <h3>旅游热度指数（月度）</h3>
+                <div class="chart" id="chartTourism"></div>
+            </div>
+            <div class="dash-card reveal" data-delay="4">
+                <h3>城市发展多维评分</h3>
+                <div class="chart" id="chartRadar"></div>
+            </div>
+        </div>
+
+        <p class="data-note">
+            * 数据说明：本页统计数值依据公开报道与政府公开文件整理并做简化处理，标注为演示数据，仅用于作品展示，不代表官方口径；
+            图表由 Apache ECharts 5 渲染，支持鼠标悬停查看具体数值与自适应缩放。
+        </p>
+
+    </section>
+
+    <!-- ===== 04 未来规划 ===== -->
+    <section class="section section-wide" id="future">
+        <div class="section-head reveal">
+            <span class="section-tag">03 / FUTURE VISION</span>
+            <h2 class="section-title">未来规划 · 宏伟蓝图</h2>
+            <p class="section-desc">
+                点击示意图中的任意功能片区（或金州湾国际机场等节点），右侧会同步展示该区域的发展定位与重点工程；下方还可查看轨道交通规划示意。
+            </p>
+        </div>
+
+        <div class="future-layout">
+            <!-- 区域规划互动示意图 -->
+            <div class="reveal">
+                <div class="plan-map" id="planMap">
+                    <svg class="plan-svg" viewBox="0 0 900 660" role="img" aria-label="大连国土空间与未来规划示意图（示意），可点击各功能片区查看规划介绍">
+                        <defs>
+                            <linearGradient id="seaGrad" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#08203a" />
+                                <stop offset="1" stop-color="#03101d" />
+                            </linearGradient>
+                            <pattern id="seaGrid" width="34" height="34" patternUnits="userSpaceOnUse">
+                                <path d="M34 0 H0 V34" fill="none" stroke="rgba(100,168,255,.11)" stroke-width="1" />
+                            </pattern>
+                        </defs>
+                        <rect width="900" height="660" fill="url(#seaGrad)" />
+                        <rect width="900" height="660" fill="url(#seaGrid)" />
+
+                        <!-- 海域注记 -->
+                        <text class="plan-city-label" x="24" y="420">渤 海</text>
+                        <text class="plan-city-label" x="20" y="560">渤 海 海 峡</text>
+                        <text class="plan-city-label" x="812" y="556">黄 海</text>
+                        <text class="plan-city-label" x="160" y="258" text-anchor="middle" font-size="13" fill="rgba(120,190,240,.8)" letter-spacing="2">金州湾</text>
+                        <text class="plan-city-label" x="606" y="536" text-anchor="middle" font-size="13" fill="rgba(120,190,240,.8)" letter-spacing="2">大连湾</text>
+
+                        <!-- 长兴岛（离岸岛） -->
+                        <path class="plan-island-shape" d="M18 158 C42 150 56 166 58 190 C60 214 42 228 22 226 C6 224 0 204 4 182 C8 166 12 162 18 158 Z" />
+                        <text class="plan-region-sub" x="30" y="176" text-anchor="middle">长兴岛</text>
+
+                        <!-- 陆域轮廓：辽东半岛南端 · 大连市域（示意） -->
+                        <path class="plan-land" d="M60 120 C118 76 210 58 300 54 C420 44 560 46 660 64 C740 84 806 116 856 168 C874 186 878 206 872 224 C846 268 806 302 782 344 C752 400 712 440 672 470 C628 502 578 522 528 532 C470 548 420 570 372 594 C330 618 292 640 268 646 C226 638 186 606 150 556 C124 508 108 452 92 400 C76 344 52 300 40 250 C28 200 22 150 60 120 Z" />
+
+                        <!-- 主要海湾（切入陆域，形成可辨识的海湾形态） -->
+                        <path class="plan-water" d="M44 250 C104 236 158 256 178 290 C196 322 170 348 136 350 C102 352 66 326 54 294 C46 272 40 260 44 250 Z" />
+                        <path class="plan-water" d="M540 566 C596 556 648 528 686 488 C712 460 716 434 694 430 C666 424 622 452 586 492 C556 524 548 552 540 566 Z" />
+
+                        <!-- 市域北界 -->
+                        <path class="plan-border" d="M60 120 C118 76 210 58 300 54 C420 44 560 46 660 64 C740 84 806 116 856 168" />
+                        <text class="plan-region-sub" x="112" y="86">北接营口 · 鞍山方向</text>
+
+                        <!-- 交通与联系走廊 -->
+                        <path class="plan-route" d="M240 80 C180 140 130 220 108 300 C92 380 132 470 190 546 C260 610 330 600 404 560 C460 530 490 512 502 492" />
+                        <path class="plan-route" d="M140 340 C280 340 420 326 560 306 C680 262 770 200 830 150" />
+                        <path class="plan-route" d="M196 140 C300 200 400 300 450 400 C466 434 472 456 476 470" />
+                        <path class="plan-metro" d="M440 470 C470 400 520 340 540 250 C556 190 520 140 466 104" stroke="rgba(30,144,255,.7)" />
+                        <path class="plan-metro" d="M420 470 C370 520 310 570 272 604" stroke="rgba(167,139,250,.7)" />
+                        <path class="plan-metro" d="M540 270 C600 290 644 312 656 320" stroke="rgba(61,220,151,.7)" />
+                        <path class="plan-tunnel" d="M516 504 C552 492 596 478 640 464" />
+                        <text class="plan-region-sub" x="614" y="428">大连湾海底隧道</text>
+                        <text class="plan-region-sub" x="704" y="330">皮口 · 花园口方向</text>
+
+                        <!-- 规划功能片区（由 main.js 依据数据渲染，可点击） -->
+                        <g id="planRegions"></g>
+                        <g id="planLabels"></g>
+                        <!-- 金州湾国际机场（海上人工岛 · 重点工程，可点击查看规划） -->
+                        <g class="region-node" data-region="jinzhouwan" tabindex="0" role="button" aria-label="金州湾国际机场">
+                            <ellipse class="region region--hub" cx="110" cy="296" rx="38" ry="19" stroke-dasharray="7 5" />
+                            <path d="M110 289 L116 301 L110 298 L104 301 Z" fill="#f6c46a" pointer-events="none" />
+                            <text class="plan-region-sub" x="110" y="384" text-anchor="middle" pointer-events="none">金州湾国际机场 · 海上人工岛</text>
+                        </g>
+
+                        <!-- 重点工程与设施节点 -->
+                        <g>
+                            <circle class="plan-marker" cx="196" cy="140" r="3.6" />
+                            <circle class="plan-marker" cx="86" cy="222" r="3.6" />
+                            <circle class="plan-marker" cx="30" cy="212" r="3.6" />
+                            <circle class="plan-marker" cx="700" cy="190" r="3.6" />
+                            <circle class="plan-marker" cx="614" cy="246" r="3.6" />
+                            <text class="plan-marker-text" x="622" y="250">大窑湾保税港区</text>
+                            <circle class="plan-marker" cx="580" cy="286" r="3.6" />
+                            <text class="plan-marker-text" x="588" y="290">小窑湾 CBD</text>
+                            <circle class="plan-marker" cx="636" cy="318" r="3.6" />
+                            <text class="plan-marker-text" x="628" y="322" text-anchor="end">金石滩</text>
+                            <circle class="plan-marker" cx="438" cy="384" r="3.6" />
+                            <text class="plan-marker-text" x="430" y="388" text-anchor="end">大连北站枢纽</text>
+                            <circle class="plan-marker" cx="472" cy="404" r="3.6" />
+                            <text class="plan-marker-text" x="480" y="408">周水子机场（现）</text>
+                            <circle class="plan-marker" cx="532" cy="436" r="3.6" />
+                            <text class="plan-marker-text" x="524" y="440" text-anchor="end">梭鱼湾 · 专业足球场</text>
+                            <circle class="plan-marker" cx="330" cy="522" r="3.6" />
+                            <circle class="plan-marker" cx="452" cy="520" r="3.6" />
+                            <text class="plan-marker-text" x="460" y="524">中山广场</text>
+                            <circle class="plan-marker" cx="500" cy="494" r="3.6" />
+                            <text class="plan-marker-text" x="508" y="498">东港 · 邮轮母港</text>
+                            <circle class="plan-marker" cx="240" cy="552" r="3.6" />
+                            <circle class="plan-marker" cx="252" cy="626" r="3.6" />
+                        </g>
+
+                    </svg>
+                    <div class="region-tip" id="regionTip"></div>
+                </div>
+                <div class="plan-legend">
+                    <span><i class="tone-core"></i>核心功能区</span>
+                    <span><i class="tone-industry"></i>开放平台 · 产业基地</span>
+                    <span><i class="tone-eco"></i>科创 · 文旅 · 生态</span>
+                    <span><i class="tone-island"></i>海洋海岛经济</span>
+                    <span><i class="tone-hub"></i>空港 · 枢纽基础设施</span>
+                    <span><i style="background:rgba(246,196,106,.95);border-radius:50%"></i>重点工程节点</span>
+                    <span><i style="height:3px;border-radius:2px;background:rgba(246,196,106,.6)"></i>交通与联系走廊</span>
+                </div>
+                <p class="map-note">* 本图为空间结构示意：陆域轮廓、片区范围、海湾与线路均经艺术化概括，不代表实际行政边界与官方线位，具体以政府公示为准。</p>
+            </div>
+
+            <!-- 区域规划详情 -->
+            <aside class="plan-detail reveal" data-delay="2" id="planDetail">
+                <span class="plan-eyebrow" id="planEyebrow">CLICK A REGION</span>
+                <h3 id="planTitle">点击左侧地图上的区域节点</h3>
+                <p id="planDesc">共有 8 个重点区域：金州湾国际机场、金普新区、大连湾·梭鱼湾、东港商务区、高新区·英歌石、旅顺口区、长兴岛、长海县。每个区域都有自己的发展定位与关键工程。</p>
+                <div class="plan-kv" id="planKv"></div>
+                <ul class="plan-list" id="planList"></ul>
+            </aside>
+        </div>
+        <!-- 轨道交通规划示意 -->
+        <div class="metro-panel reveal">
+            <div class="metro-head">
+                <h3>轨道交通规划示意</h3>
+                <p>点击图例或线路可高亮对应线路 · 线位为示意表达，非官方公示线位</p>
+            </div>
+            <div>
+                <svg class="metro-svg" viewBox="0 0 760 500" role="img" aria-label="大连轨道交通规划示意图">
+                    <rect width="760" height="500" rx="12" fill="rgba(8,26,48,.45)" />
+                    <g stroke="rgba(100,168,255,.07)" stroke-width="1">
+                        <path d="M0 100 H760 M0 200 H760 M0 300 H760 M0 400 H760" />
+                        <path d="M100 0 V500 M200 0 V500 M300 0 V500 M400 0 V500 M500 0 V500 M600 0 V500 M700 0 V500" />
+                    </g>
+                    <!-- 线路 -->
+                    <polyline class="metro-line" data-line="m1" points="372,60 366,150 356,230 372,320 400,420" stroke="#1e90ff" />
+                    <polyline class="metro-line" data-line="m2" points="110,255 230,262 356,240 470,232 620,266 700,300" stroke="#00d2ff" />
+                    <polyline class="metro-line" data-line="m3" points="356,240 430,180 520,120 618,64" stroke="#3ddc97" />
+                    <polyline class="metro-line" data-line="m3" points="430,180 560,190 660,205" stroke="#3ddc97" />
+                    <polyline class="metro-line" data-line="m4" points="250,300 340,296 430,286 520,300" stroke="#f6c46a" stroke-dasharray="12 8" />
+                    <polyline class="metro-line" data-line="m5" points="180,120 270,180 356,250 430,320 520,368 610,420" stroke="#f6a23c" />
+                    <polyline class="metro-line" data-line="m12" points="400,420 300,404 180,428 70,440" stroke="#a78bfa" />
+                    <polyline class="metro-line" data-line="m13" points="520,120 545,72 560,30" stroke="#ff7ab6" />
+                    <polyline class="metro-line" data-line="plan" points="150,360 300,330 450,340 600,300" stroke="#7c93b8" stroke-dasharray="6 7" />
+                    <polyline class="metro-line" data-line="plan" points="460,60 560,190 660,250" stroke="#7c93b8" stroke-dasharray="6 7" />
+                    <!-- 换乘枢纽 -->
+                    <g>
+                        <circle class="metro-interchange" cx="356" cy="240" r="7" />
+                        <circle class="metro-interchange" cx="400" cy="420" r="7" />
+                        <circle class="metro-interchange" cx="520" cy="120" r="7" />
+                        <circle class="metro-interchange" cx="430" cy="180" r="7" />
+                    </g>
+                    <!-- 普通车站（示意） -->
+                    <g>
+                        <circle class="metro-station" cx="372" cy="60" r="4.5" />
+                        <circle class="metro-station" cx="366" cy="150" r="4.5" />
+                        <circle class="metro-station" cx="372" cy="320" r="4.5" />
+                        <circle class="metro-station" cx="110" cy="255" r="4.5" />
+                        <circle class="metro-station" cx="230" cy="262" r="4.5" />
+                        <circle class="metro-station" cx="470" cy="232" r="4.5" />
+                        <circle class="metro-station" cx="620" cy="266" r="4.5" />
+                        <circle class="metro-station" cx="700" cy="300" r="4.5" />
+                        <circle class="metro-station" cx="618" cy="64" r="4.5" />
+                        <circle class="metro-station" cx="660" cy="205" r="4.5" />
+                        <circle class="metro-station" cx="180" cy="120" r="4.5" />
+                        <circle class="metro-station" cx="270" cy="180" r="4.5" />
+                        <circle class="metro-station" cx="430" cy="320" r="4.5" />
+                        <circle class="metro-station" cx="520" cy="368" r="4.5" />
+                        <circle class="metro-station" cx="610" cy="420" r="4.5" />
+                        <circle class="metro-station" cx="300" cy="404" r="4.5" />
+                        <circle class="metro-station" cx="180" cy="428" r="4.5" />
+                        <circle class="metro-station" cx="70" cy="440" r="4.5" />
+                        <circle class="metro-station" cx="560" cy="30" r="4.5" />
+                        <circle class="metro-station" cx="340" cy="296" r="4.5" />
+                        <circle class="metro-station" cx="520" cy="300" r="4.5" />
+                    </g>
+                    <!-- 站点与线路注记 -->
+                    <text class="metro-label" x="372" y="46" text-anchor="middle">姚家（北）</text>
+                    <text class="metro-label" x="344" y="232">大连站</text>
+                    <text class="metro-label" x="412" y="440">河口</text>
+                    <text class="metro-label" x="520" y="108" text-anchor="middle">开发区</text>
+                    <text class="metro-label" x="618" y="48" text-anchor="middle">金石滩</text>
+                    <text class="metro-label" x="70" y="462" text-anchor="middle">旅顺新港</text>
+                    <text class="metro-label" x="610" y="446" text-anchor="middle">虎滩新区</text>
+                    <text class="metro-label" x="560" y="20" text-anchor="middle">普湾方向</text>
+                    <text class="metro-label" x="150" y="386" text-anchor="middle">远景规划走廊</text>
+                    <text class="metro-label" x="270" y="52" text-anchor="middle">主城 — 金普联系轴</text>
+
+                </svg>
+            </div>
+            <div class="metro-legend" id="metroLegend">
+                <button type="button" data-line="m1" style="--c:#1e90ff"><i></i>1 号线 · 姚家—河口<em>已运营</em></button>
+                <button type="button" data-line="m2" style="--c:#00d2ff"><i></i>2 号线 · 东西向主干<em>已运营</em></button>
+                <button type="button" data-line="m3" style="--c:#3ddc97"><i></i>3 号线 · 大连站—金石滩<em>已运营</em></button>
+                <button type="button" data-line="m4" style="--c:#f6c46a"><i></i>4 号线 · 主城东西加密<em>在建</em></button>
+                <button type="button" data-line="m5" style="--c:#f6a23c"><i></i>5 号线 · 含跨海段<em>已运营</em></button>
+                <button type="button" data-line="m12" style="--c:#a78bfa"><i></i>12 号线 · 河口—旅顺新港<em>已运营</em></button>
+                <button type="button" data-line="m13" style="--c:#ff7ab6"><i></i>13 号线 · 金普新区方向<em>已运营</em></button>
+                <button type="button" data-line="plan" style="--c:#7c93b8"><i></i>远景规划走廊<em>规划研究</em></button>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===== 05 互动：城市问答 · 未来留言板 ===== -->
+    <section class="section section-wide section-alt" id="quiz">
+        <div class="section-head reveal">
+            <span class="section-tag">04 / INTERACTIVE</span>
+            <h2 class="section-title">城市问答 · 未来留言板</h2>
+            <p class="section-desc">
+                用 5 道题检验你对大连历史与规划的熟悉程度；也可以写下你写给这座城市的期待，为这次「数字漫游」留下属于你的印记。
+            </p>
+        </div>
+
+        <div class="engagement-grid">
+            <div class="quiz reveal" id="quizPanel">
+                <div class="quiz-head">
+                    <h3>城市知识小测试</h3>
+                    <span id="quizCounter">第 1 / 5 题</span>
+                </div>
+                <div class="quiz-progress"><i id="quizBar"></i></div>
+                <p class="quiz-q"><em id="quizNo">QUESTION 01</em><span id="quizQuestion">加载中…</span></p>
+                <div class="quiz-opts" id="quizOpts"></div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                <div class="quiz-foot">
+                    <span class="board-count" id="quizScore">得分：0 / 0</span>
+                    <button type="button" class="btn btn-mini" id="quizRestart">重新开始</button>
+                </div>
+            </div>
+
+            <div class="board reveal" data-delay="1" id="board">
+                <div class="board-head">
+                    <h3>未来留言板</h3>
+                    <span id="boardCount">共 0 条留言</span>
+                </div>
+                <form class="board-form" id="boardForm">
+                    <input type="text" id="boardName" maxlength="12" placeholder="你的昵称（最多 12 字）" autocomplete="off">
+                    <textarea id="boardText" maxlength="80" placeholder="写给大连未来的一句话（最多 80 字）"></textarea>
+                    <div class="row">
+                        <span class="board-count" id="boardTip">留言仅保存在本地浏览器，不会上传服务器</span>
+                        <button type="submit" class="btn btn-primary btn-mini">发表留言</button>
+                    </div>
+                </form>
+                <div class="board-list" id="boardList"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h4>关于本项目</h4>
+                <p>
+                    《大连印记：从过去到未来的数字漫游》以「历史长廊 / 今日大连 / 未来规划」三大篇章，
+                    用交互式时间轴、老地图联动、数据可视化大屏与规划互动地图，讲述一座滨海城市从 1899 年建市到面向未来的故事。
+                </p>
+            </div>
+            <div>
+                <h4>技术实现</h4>
+                <ul>
+                    <li>原生 HTML5 + CSS3：Grid 布局、CSS 变量、关键帧动画与响应式适配</li>
+                    <li>GSAP + ScrollTrigger：滚动视差、首屏分层入场与时间轴动效</li>
+                    <li>Apache ECharts 5：多图表数据可视化（折线 / 柱状 / 玫瑰 / 雷达 / 面积）</li>
+                    <li>Canvas 粒子系统 + 手绘 SVG 老地图与规划示意图（离线可用）</li>
+                    <li>localStorage：留言板数据本地持久化</li>
+                </ul>
+            </div>
+            <div>
+                <h4>数据与素材说明</h4>
+                <p>
+                    页面中的老地图、区域规划图与地铁线位均为本作品手绘 SVG 示意，非精确测绘、非官方公示线位；
+                    统计数据依据公开报道与政府公开文件整理并做简化，标注为演示数据，仅用于作品展示。
+                </p>
+                <div class="footer-tags">
+                    <span># 大连</span>
+                    <span># 城市数字档案</span>
+                    <span># 数据可视化</span>
+                    <span># 交互式时间轴</span>
+                    <span># 视差滚动</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>2026 年第十四届全国大学生数字媒体科技作品及创意竞赛 · 移动与网络应用开发类</span>
+            <span>© <span id="footerYear">2026</span> 大连印记 · 仅供学习交流使用</span>
+        </div>
+    </footer>
+
+    <button class="to-top" id="toTop" type="button" aria-label="返回顶部">↑</button>
+
+    <!-- 交互逻辑 -->
+    <script src="js/main.js" defer></script>
+
+
+
+
+
+</body>
+</html>
